@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
-import generating_random_points as rand_points
-import my_types
+from lab1 import generating_random_points as rand_points, my_types
 
 
 def plot_points(points):

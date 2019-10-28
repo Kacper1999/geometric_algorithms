@@ -1,7 +1,5 @@
-import generating_random_points as rand_points
 import numpy as np
-import ploting_points as plot_p
-import my_types
+from lab1 import ploting_points as plot_p, generating_random_points as rand_points, my_types
 
 
 def get_sign(a):
