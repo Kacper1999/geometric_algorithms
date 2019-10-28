@@ -6,6 +6,14 @@ class Point:
         self.x = x
         self.y = y
 
+    def make_vector(self, p):
+        return Vector(self.x - p.x, self.y - p.y)
+
+
+def print_points(points):
+    for point in points:
+        print("(" + str(point.x) + ", " + str(point.y) + ")")
+
 
 class Vector:
     def __init__(self, x, y):
