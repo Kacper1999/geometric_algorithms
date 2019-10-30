@@ -58,7 +58,7 @@ def check_diff_in_sign_calc(tries, a=my_types.Point(0, 0), b=my_types.Point(1, 1
         random_points = rand_points.get_rand_points(how_many, lower_bound, upper_bound)
         different_calc = how_many_different_result(random_points, a, b, precision)
         average += len(different_calc)
-        plot_p.plot_points(different_calc)
+        # plot_p.plot_points(different_calc)
     print(average / tries)
 
     average = 0
