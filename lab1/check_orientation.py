@@ -1,96 +1,91 @@
 import numpy as np
-from lab1 import ploting_points as plot_p, generating_random_points as rand_points, my_types
+import generating_random_points as rand_points
 
 
-def get_sign(a):
-    if a > 0:
+def get_sign(a, error=10 ** (-5)):
+    if a > error:
         return 1
-    elif a < 0:
+    elif a < -error:
         return -1
     else:
         return 0
 
 
-def calc_det_sign1(a, b, c, precision=np.float_):
-    temp = np.array([[a.x, a.y, 1],
-                     [b.x, b.y, 1],
-                     [c.x, c.y, 1]])
+def calc_det_sign1(a, b, c, error=10 ** (-5)):
+    temp = np.array([[a[0], a[1], 1],
+                     [b[0], b[1], 1],
+                     [c[0], c[1], 1]])
+
     result = np.linalg.det(temp)
-    result = precision(result)
-    return get_sign(result)
+    return get_sign(result, error)
 
 
-def calc_det_sign2(a, b, c, precision=np.float_):
-    temp = np.array([[(a.x - c.x), (a.y - c.y)],
-                     [(b.x - c.x), (b.y - c.y)]])
+def calc_det_sign2(a, b, c, error=10 ** (-5)):
+    temp = np.array([[(a[0] - c[0]), (a[1] - c[1])],
+                     [(b[0] - c[0]), (b[1] - c[1])]])
+
     result = np.linalg.det(temp)
-    result = precision(result)
-    return get_sign(result)
+    return get_sign(result, error)
 
 
-def how_many_different_result(c_points, a=my_types.Point(0, 0), b=my_types.Point(1, 1), precision=np.float_):
+def how_many_different_result(c_points, a=(0, 0), b=(1, 1), error=10 ** (-5)):
     result = []
     for c in c_points:
-        sign1 = calc_det_sign1(a, b, c, precision)
-        sign2 = calc_det_sign2(a, b, c, precision)
+        sign1 = calc_det_sign1(a, b, c)
+        sign2 = calc_det_sign2(a, b, c)
         if sign1 != sign2:
             result.append(c)
     return result
 
 
-def check_diff_in_sign_calc(tries, a=my_types.Point(0, 0), b=my_types.Point(1, 1), precision=np.float_):
-    average = 0
-    for i in range(tries):
-        how_many = 10 ** 5
-        lower_bound = -1000
-        upper_bound = -lower_bound
-        random_points = rand_points.get_rand_points(how_many, lower_bound, upper_bound)
-        different_calc = how_many_different_result(random_points, a, b, precision)
-        average += len(different_calc)
-        # plot_p.plot_points(different_calc)
-    print(average / tries)
-
-    average = 0
-    for i in range(tries):
-        how_many = 10 ** 5
-        lower_bound = -10 ** 14
-        upper_bound = -lower_bound
-        random_points = rand_points.get_rand_points(how_many, lower_bound, upper_bound)
-        different_calc = how_many_different_result(random_points, a, b, precision)
-        average += len(different_calc)
-        # plot_p.plot_points(different_calc)
-    print(average / tries)
-
-    average = 0
-    for i in range(tries):
-        how_many = 1000
-        center = my_types.Point(0, 0)
-        radius = 100
-        random_points = rand_points.get_rand_points_circle(how_many, radius, center, )
-        different_calc = how_many_different_result(random_points, a, b, precision)
-        average += len(different_calc)
-        # plot_p.plot_points(different_calc)
-    print(average / tries)
-
-    average = 0
-    for i in range(tries):
-        how_many = 1000
-        lower_bound = -1000
-        upper_bound = -lower_bound
-        random_points = rand_points.get_rand_points_line(how_many, a, b, lower_bound, upper_bound)
-        different_calc = how_many_different_result(random_points, a, b, precision)
-        average += len(different_calc)
-        # plot_p.plot_points(different_calc)
-    print(average / tries)
+def change_precision(a, precision):
+    result = (precision(a[0]), precision(a[1]))
+    return result
 
 
 def main():
-    precision = np.float32
-    a = my_types.Point(-1, 0)
-    b = my_types.Point(1, 0.1)
-    tries = 15
+    how_many = 10 ** 5
+    lower_bound = -1000
+    upper_bound = -lower_bound
+    a = (-1, 0)
+    b = (1, 0.1)
 
-    check_diff_in_sign_calc(tries, a, b, precision)
+    precision = np.float16
+
+    a = change_precision(a, precision)
+    b = change_precision(b, precision)
+    random_points = rand_points.get_rand_points_line(how_many, a, b, lower_bound, upper_bound)
+
+    print(format(random_points[0][0], ".34g"))
+
+    print(how_many_different_result(random_points, a, b))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # how_many = 10 ** 5
+    # lower_bound = -10 ** 14
+    # upper_bound = -lower_bound
+    #
+    # random_points = rand_points.get_rand_points(how_many, lower_bound, upper_bound)
+    #
+    # for point in random_points:
+    #     point = change_precision(point, precision)
+    #
+    # print(how_many_different_result(random_points, a, b))
 
 
 if __name__ == "__main__":

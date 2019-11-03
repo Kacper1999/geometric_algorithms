@@ -1,10 +1,15 @@
 import matplotlib.pyplot as plt
-from lab1 import generating_random_points as rand_points, my_types
+import generating_random_points as rand_points
 
 
 def plot_points(points):
-    data = my_types.Data(points)
-    plt.scatter(data.x_cor, data.y_cor)
+    x_cor = []
+    y_cor = []
+    for point in points:
+        x_cor.append(point[0])
+        y_cor.append(point[1])
+
+    plt.scatter(x_cor, y_cor)
     plt.show()
 
 
@@ -21,13 +26,13 @@ def main():
     plot_points(random_points)
 
     how_many = 1000
-    center = my_types.Point(0, 0)
+    center = (0, 0)
     radius = 100
     random_points = rand_points.get_rand_points_circle(how_many, radius, center, )
     plot_points(random_points)
 
-    a = my_types.Point(-1, 0)
-    b = my_types.Point(1, 0.1)
+    a = (-1, 0)
+    b = (1, 0.1)
     lower_bound = -1000
     upper_bound = -lower_bound
     random_points = rand_points.get_rand_points_line(how_many, a, b, lower_bound, upper_bound)
