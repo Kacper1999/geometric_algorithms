@@ -1,23 +1,21 @@
 import numpy as np
-from lab1 import ploting_points as plot_p, generating_random_points as rand_points, my_types
-
-
-def get_sign(a):
-    if a > 0:
-        return 1
-    elif a < 0:
-        return -1
-    else:
-        return 0
+import generating_random_points as rand_points
+import my_types
 
 
 def calc_det_sign1(a, b, c, precision=np.float_):
+    a.x = precision(a.x)
+    a.y = precision(a.y)
+    b.x = precision(b.x)
+    b.y = precision(b.y)
+    c.x = precision(c.x)
+    c.y = precision(c.y)
     temp = np.array([[a.x, a.y, 1],
                      [b.x, b.y, 1],
                      [c.x, c.y, 1]])
     result = np.linalg.det(temp)
     result = precision(result)
-    return get_sign(result)
+    return np.sign(result)
 
 
 def calc_det_sign2(a, b, c, precision=np.float_):
@@ -25,7 +23,7 @@ def calc_det_sign2(a, b, c, precision=np.float_):
                      [(b.x - c.x), (b.y - c.y)]])
     result = np.linalg.det(temp)
     result = precision(result)
-    return get_sign(result)
+    return np.sign(result)
 
 
 def how_many_different_result(c_points, a=my_types.Point(0, 0), b=my_types.Point(1, 1), precision=np.float_):
@@ -85,10 +83,20 @@ def check_diff_in_sign_calc(tries, a=my_types.Point(0, 0), b=my_types.Point(1, 1
 
 
 def main():
-    precision = np.float32
+    precision = np.float16
     a = my_types.Point(-1, 0)
     b = my_types.Point(1, 0.1)
-    tries = 15
+    tries = 10
+
+    a1 = np.float16(1 / 3)
+    a2 = np.float16(3 / 2)
+    b1 = np.float16(3 / 4)
+    b2 = np.float16(1 / 2)
+
+    k = np.array([[a1, b1],
+                  [a2, b2]], np.float16)
+
+    print(np.linalg.det(k))
 
     check_diff_in_sign_calc(tries, a, b, precision)
 

@@ -1,6 +1,6 @@
 import random
 import math
-from lab1 import my_types
+import my_types
 
 
 def get_rand_points(how_many=100, lower_bound=0, upper_bound=100):
