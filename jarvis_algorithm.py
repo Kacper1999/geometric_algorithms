@@ -1,5 +1,4 @@
 import generating_random_points as rand_p
-import check_orientation as check_o
 import time_functions as time_f
 import qualify_by_angle as qualify_by_a
 import ploting_points as plot_p
