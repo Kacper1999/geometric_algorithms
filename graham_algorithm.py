@@ -1,6 +1,5 @@
 import generating_random_points as rand_p
 import check_orientation as check_o
-import functools
 import time_functions as time_f
 import qualify_by_angle as qualify_by_a
 
@@ -10,10 +9,10 @@ def graham(points, write_to_file=False, error=10 ** (-8)):
 
     o_point = min(copied_points, key=lambda tup: (tup[1], tup[0]))
 
+    # I remove and append "o_point" after a sort to protect myself from adding "o_point" to stack in different
+    # position than start and the end.
     copied_points.remove(o_point)
-
     qualify_by_a.sort_by_angle(copied_points, o_point, error)
-
     copied_points.append(o_point)
 
     stack = [o_point, copied_points.pop(0)]

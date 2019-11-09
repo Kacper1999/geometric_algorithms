@@ -97,6 +97,7 @@ def get_rand_points_rectangle_axis_and_diagonal(p_on_axis=25, p_on_diagonal=20,
     return random_points
 
 
+# Get a point on a section of a line from "a" to "b"
 def get_point(a, b):
     lower_bound = min([a[0], a[1], b[0], b[1]])
     upper_bound = max([a[0], a[1], b[0], b[1]])
