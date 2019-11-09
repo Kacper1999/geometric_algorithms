@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from lab1 import generating_random_points as rand_points
+import generating_random_points as rand_points
 
 
 def plot_points(points):
@@ -11,6 +11,11 @@ def plot_points(points):
 
     plt.scatter(x_cor, y_cor)
     plt.show()
+
+
+def print_points(points):
+    for point in points:
+        print(point)
 
 
 def main():
