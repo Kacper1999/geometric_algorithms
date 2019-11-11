@@ -15,7 +15,7 @@ def jarvis(points, error=10 ** (-8)):
     # if I were not to do that I wouldn't be able to write simple condition like "stack[0] != stack[-1].
     key = qualify_by_a.get_key(stack[-1], error)
     p = min(copied_points, key=key)
-    # I append p so that I will know when I created a hull convex
+    # I append p so that I will know when I created a convex hull
     stack.append(p)
 
     copied_points.append(p0)
@@ -29,7 +29,7 @@ def jarvis(points, error=10 ** (-8)):
 
 
 def main():
-    random_points = rand_p.get_rand_points(10 ** 3)
+    random_points = rand_p.get_rand_points_rectangle(10 ** 3)
     plot_p.plot_points(random_points)
     result = jarvis(random_points)
     plot_p.plot_points(result)
