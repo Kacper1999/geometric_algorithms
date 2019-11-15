@@ -104,11 +104,13 @@ def visualize_jarvis(points, error=10 ** (-8)):
     copied_points.remove(p0)
     stack = [p0]
     append_scene(scenes, copied_points, stack, stack)
+
     # I add append another point to stack so that I can append "p0" to "copied_points" and write a simple while loop,
     # if I were not to do that I wouldn't be able to write simple condition like "stack[0] != stack[-1].
     key = get_key(stack[-1], error)
     p = min(copied_points, key=key)
     visualize_getting_min(scenes, copied_points, [p0], p0, p)
+
     # I append p so that I will know when I have created a hull convex
     stack.append(p)
     copied_points.append(p0)
