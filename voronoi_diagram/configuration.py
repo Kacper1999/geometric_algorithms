@@ -107,6 +107,10 @@ class Plot:
             self.scenes = [Scene([PointsCollection(pointsCol) for pointsCol in scene["points"]],
                                  [LinesCollection(linesCol) for linesCol in scene["lines"]])
                            for scene in js.loads(json)]
+        self.callback = Button_callback(self.scenes)
+        self.widgets = self.__configure_buttons(self.callback)
+
+
 
     def __configure_buttons(self, callback):
         plt.subplots_adjust(bottom=0.2)
@@ -156,21 +160,25 @@ class Plot:
     def draw(self):
         plt.close()
         fig = plt.figure()
-        self.callback = Button_callback(self.scenes)
-        self.widgets = self.__configure_buttons(self.callback)
         ax = plt.axes(autoscale_on=False)
         self.callback.set_axes(ax)
         fig.canvas.mpl_connect('button_press_event', self.callback.on_click)
         plt.show()
         self.callback.draw()
 
-scenes=[Scene([PointsCollection([(1, 2), (3, 1.5), (2, -1)]),
-               PointsCollection([(5, -2), (2, 2), (-2, -1)], color='green', marker = "^")],
-              [LinesCollection([[(1,2),(2,3)], [(0,1),(1,0)]])]),
-        Scene([PointsCollection([(1, 2), (3, 1.5), (2, -1)], color='red', s=1),
-               PointsCollection([(5, -2), (2, 2), (-2, 1)], color='black')],
-              [LinesCollection([[(-1,2),(-2,3)], [(0,-1),(-1,0)]])])]
 
-plot = Plot(scenes)
-plot.add_scene(Scene([PointsCollection([(2, 1)])], [LinesCollection([[(1,2),(2,3)]])]))
-plot.draw()
+def main():
+    scenes = [Scene([PointsCollection([(1, 2), (3, 1.5), (2, -1)]),
+                     PointsCollection([(5, -2), (2, 2), (-2, -1)], color='green', marker="^")],
+                    [LinesCollection([[(1, 2), (2, 3)], [(0, 1), (1, 0)]])]),
+              Scene([PointsCollection([(1, 2), (3, 1.5), (2, -1)], color='red', s=1),
+                     PointsCollection([(5, -2), (2, 2), (-2, 1)], color='black')],
+                    [LinesCollection([[(-1, 2), (-2, 3)], [(0, -1), (-1, 0)]])])]
+
+    plot = Plot(scenes)
+    plot.add_scene(Scene([PointsCollection([(2, 1)])], [LinesCollection([[(1, 2), (2, 3)]])]))
+    plot.draw()
+
+
+if __name__ == "__main__":
+    main()
