@@ -19,11 +19,8 @@ class StateStructure:
         self.points.remove(point)
 
     def get_index(self, point):
-        def equals(p1, p2):
-            epsilon = 10 ** (-8)
-            return abs(p1[0] - p2[0]) < epsilon and abs(p1[1] - p2[1]) < epsilon
         for i, p in enumerate(self.points):
-            if equals(p, point):
+            if p == point:
                 return i
 
 

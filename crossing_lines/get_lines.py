@@ -6,7 +6,7 @@ def is_vertical(line, error=10 ** (-8)):
     return abs(line.a[0] - line.b[0]) < error
 
 
-def generate_lines(how_many=20, lower_bound=-100, upper_bound=100, error=10 ** (-8)):
+def generate_lines(how_many=5, lower_bound=-100, upper_bound=100, error=10 ** (-8)):
     lines = []
     while len(lines) != how_many:
         x1 = random.uniform(lower_bound, upper_bound)
