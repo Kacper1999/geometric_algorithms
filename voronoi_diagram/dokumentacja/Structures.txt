@@ -1,0 +1,39 @@
+Klasa Point: Klasa przechowująca punkty
+Konstruktor przyjmuje dwie współrzędne x i y w postaci liczb
+Metody w klasie:
+    distance - przyjmuje obiekty klasy Point zwraca dystans (w metryce taksówkowej) pomiędzy dwoma punktami 
+    findPointWithEqualDistance przyjmuje dwa obiekty klasy Point - Zwraca punkt znajdujący sie w równej odległości od 3 podanych punktów. Jeśli takowy nie istnieje zwraca False
+    klasa posiada przeładowanie operatorów dodawania i odejmowania
+    multiplyByScalar - przyjmuje liczbę jako argument zwraca obiekt klasy Point, gdzie każda współrzędna została przemnożona przez podany skalar
+    divideByScalar - przyjmuje liczbę jako argument zwraca obiekt klasy Point, gdzie każda współrzędna została podzielona przez podany skalar
+Atrybuty klasy
+    x - koordynat x-owy punktu
+    y - koordynat y-owy punktu
+
+
+
+Klasa Line
+Klasa przechowująca odcinki i półproste
+Konstruktor przyjmuje dwa obiekty klasy Point i opcjonalnie argument mówiący o typie linii (LineType.ODCINEK lub LineType.POLPROSTA)
+Gdy typ lini nie został podany podana linia będzie odcinkiem
+Gdy linia jest półprostą self.start punkt startu, a self.end to wektor mówiący o kierunku półprostej
+Gdy linia jest odcinkiem self.start to punkt startu, a self.end to punkt końca odcinka
+Metody w klasie:
+    lineCoinainsPoint - przyjmuje obiekt klasy Point. Jeśli podany punkt zawiera się w tej linii zwraca True, W przeciwnym przypadku False
+    doLinesCross - przyjmuje obiekt klasy Line. Jeśli podana linia przcina linię na której zostałą wywołana metoda zwraca True, W przeciwnym przypadku False
+    crossingPoint - przyjmuje obiekt klasy Line. Jeśli podana linia nie przcina linię na której zostałą wywołana metoda zwraca False. W przciwnym przypadku zwraca obiekt klasy Point którego koodynaty odpowiadają punktowi przecięcia podanych dwóch linii
+Atrybuty klasy
+    start - punkt początkowy odcinka
+    end - punkt końcowy odcinka lub wektor kierunku w przypadku półprostej
+
+
+Klasa Bisection
+Klasa przechowująca linie leżące w takiej samej odległości od dwóch punktów podanych w konstruktorze
+Konstruktor przyjmuje dwa punkty i tworzy symetralną obiekty klasy Line
+Metody klasy
+    -doBissectionsCross przyjmuje obiekt klasy Bisection zwraca True jeśeli którekolwiek z linii się przecina w przeciwnym przypadku zwraca False
+    -crossingPoint przyjmuje obiekt klasy Bisection zwraca obiekt klasy Point który mówi o punkcie przecięcia linii. Jeśli linie się nie przecinają zwraca False
+Atrybuty klasy
+    lines - tablica przechowująca linie w postaci instancji klasy Line
+    firstPoint, oraz secondPoint - punkty (obiekty klasy Point) na podstawie których były wyznaczone linie
+
