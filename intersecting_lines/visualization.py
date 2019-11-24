@@ -1,6 +1,6 @@
 from configuration_for_visualization import *
-from intersacting_lines.intersecting_lines_algorithm import *
-from intersacting_lines.get_lines import get_lines, generate_lines
+from intersecting_lines.intersecting_lines_algorithm import *
+from intersecting_lines.get_lines import get_lines, generate_lines
 
 
 def add_scene(scenes, lines, prior_q, crossing_points, current_point):
@@ -72,6 +72,7 @@ def visualize_intersecting_lines_algorithm(lines=None):
 
 def main():
     pass
+
 
 if __name__ == "__main__":
     main()

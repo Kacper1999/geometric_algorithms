@@ -1,7 +1,7 @@
 from sortedcontainers import SortedSet
 from sortedcontainers import SortedDict
 from sys import maxsize
-from intersacting_lines.get_lines import get_lines
+from intersecting_lines.get_lines import get_lines
 
 
 # I know this code ain't pretty but I've lost sanity while writing so I will just leave it while it works

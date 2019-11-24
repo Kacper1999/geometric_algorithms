@@ -1,5 +1,5 @@
 from random import uniform
-from intersacting_lines.Line import Line
+from intersecting_lines.Line import Line
 from configuration_for_visualization import *
 
 

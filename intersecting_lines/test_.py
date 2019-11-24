@@ -1,7 +1,7 @@
 import unittest
-from intersacting_lines import intersecting_lines_algorithm as cla
-from intersacting_lines.Line import Line
-from intersacting_lines.state_structure import StateStructure
+from intersecting_lines import intersecting_lines_algorithm as cla
+from intersecting_lines.Line import Line
+from intersecting_lines.state_structure import StateStructure
 
 
 class Test(unittest.TestCase):
