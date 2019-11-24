@@ -1,0 +1,39 @@
+sprawdzanie monotonicznoœci wzglêdem wartoœci "y"
+
+---
+
+wielok¹ta jest swoj¹ w³asn¹ klas¹ z polami:
+vertices - lista wierzcho³ków wielok¹ta
+lines - lista lini które tworz¹ ten wielok¹t
+
+linia te¿ otrzyma³¹ swoj¹ klase mo¿e nad wyrost poniewa¿
+posiada tylko pola "a" oraz "b" oznaczaj¹ce punkty od 
+których linia siê zaczyna oraz koñczy
+
+triangulacja to lista lini
+
+---
+
+program zosta³ przetestowany na wielok¹tach które
+podzieli³bym na 3 typy:
+losowe
+kanciaste
+g³¹dkie
+
+losowe: by³y tworzone bez zastanowienia
+
+kanciaste: które w swoich ³añcuchach mia³y du¿o k¹tów
+ostrych 
+dobrze sprawdza³y one poprawnoœæ algorytmu
+w przypadku gdy nastêpny rozpatrywany punkt by³ na tym
+samym ³añcuchu a trójk¹t nie zawiera³ siê w wielok¹cie
+
+g³adkie: "przypominaj¹ce" okr¹g
+sprawdza³y dodawanie lini triangulacji poniewa¿ niemal
+zawsze da³o siê tak¹ dodaæ
+
+warto te¿ wspomnieæ o "³apkach" tzn. jeden punkt z lewej
+badz prawej strony, du¿o punktów z drugiej które tworzy³y
+³¹ñcuch o du¿ej iloœci k¹tów ostrych
+sprawdza³y poprawnoœæ algorytmy rozpatrywany punkt by³
+na tym samym ³añcuchu

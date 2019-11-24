@@ -8,19 +8,22 @@ class Line:
             self.a = point_b
             self.b = point_a
 
-        self.sort_by = self.a
+        self.sort_by = (self.a[1], self.a[0])
 
-        self.v = (point_b[0] - point_a[0], point_b[1] - point_a[1])  # simple geometry formulas
+        self.v = (self.b[0] - self.a[0], self.b[1] - self.a[1])  # simple geometry formulas
         self.slope = self.v[1] / self.v[0]
-        self.intercept = (point_a[1] + point_b[1] - self.slope * (point_a[0] + point_b[0])) / 2
+        self.intercept = self.a[1] - self.slope * self.a[0]
 
     def get_y_at(self, x):
         return self.slope * x + self.intercept
 
-    def are_crossing(self, line2):  # this function assumes that line1.a[1] < line2.a[1]
-        x = line2.b[0]
-        y = self.get_y_at(x)
-        return y > line2.b[1]
+    def crosses(self, line2):  # this function assumes that self.a[1] < line2.a[1]
+        if self.slope == line2.slope:
+            return False
+        cross_point = self.cross_point(line2)
+        smallest_x = min(cross_point[0] - 10 ** (-8), self.a[0], line2.a[0])
+        biggest_x = min(cross_point[0], self.b[0], line2.b[0])
+        return smallest_x == cross_point[0] or biggest_x == cross_point[0]
 
     def cross_point(self, line2):  # simple geometry formulas
         x = (line2.intercept - self.intercept) / (self.slope - line2.slope)

@@ -1,6 +1,6 @@
 from convex_hull.check_orientation import calc_det_sign1
 from convex_hull.qualify_by_angle import sort_by_angle, get_key, greater, decide_collinear
-from convex_hull.configuration_for_visualization import *
+from configuration_for_visualization import *
 
 from convex_hull import generating_random_points as rand_p
 
@@ -25,12 +25,12 @@ def append_scene(scenes, points, marked=None, considered=None, wrong=None):
                 wrong_lines = return_lines(copied_wrong)
 
     scenes.append(Scene([PointsCollection(copied_points),
-                         PointsCollection(copied_marked, "lime"),
-                         PointsCollection(copied_considered, "gold"),
-                         PointsCollection(copied_wrong, "red")],
-                        [LinesCollection(convex_hull, "lime"),
-                         LinesCollection(considered_lines, "gold"),
-                         LinesCollection(wrong_lines, "red")]))
+                         PointsCollection(copied_marked, color="lime"),
+                         PointsCollection(copied_considered, color="gold"),
+                         PointsCollection(copied_wrong, color="red")],
+                        [LinesCollection(convex_hull, color="lime"),
+                         LinesCollection(considered_lines, color="gold"),
+                         LinesCollection(wrong_lines, color="red")]))
 
 
 def return_lines(points):
@@ -82,7 +82,7 @@ def visualize_graham(points, error=10 ** (-8)):
     return scenes
 
 
-def visualize_getting_min(scenes, points, marked_points, reference_point, min_point, error=10 ** (-8)):
+def visualize_getting_min(scenes, points, marked_points, reference_point, error=10 ** (-8)):
     smallest = points[0]
     orientation = greater(reference_point, error)
     append_scene(scenes, points, marked_points, [reference_point, smallest])
@@ -128,7 +128,7 @@ def visualize_jarvis(points, error=10 ** (-8)):
 
 
 def main():
-    random_points = rand_p.get_rand_points_rectangle(1000)
+    random_points = rand_p.get_rand_points_rectangle(20)
     scenes = visualize_graham(random_points)
 
     plot = Plot(scenes)

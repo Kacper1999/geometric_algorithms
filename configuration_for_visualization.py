@@ -5,8 +5,11 @@ import matplotlib.colors as mcolors
 from matplotlib.widgets import Button
 import json as js
 
-FIG_EPS = 0.5
+TOLERANCE = 0.15
 
+
+# code taken from:
+# https://github.com/Podsiadlo/GoGUI2/blob/master/lab4.ipynb?fbclid=IwAR1apDXYkE64Bn4GPHl0jMhBGtdXEe8OpKADTkFD9mfcRGq7E4ZxkqVkRtg
 
 def dist(point1, point2):
     return np.sqrt(np.power(point1[0] - point2[0], 2) + np.power(point1[1] - point2[1], 2))
@@ -84,7 +87,8 @@ class _Button_callback(object):
                 self.rect_points.append(new_point)
                 self.draw(autoscaling=False)
             elif len(self.rect_points) > 1:
-                if dist(self.rect_points[0], new_point) < FIG_EPS:
+                if dist(self.rect_points[0], new_point) < (
+                        np.mean([self.ax.get_xlim(), self.ax.get_ylim()]) * TOLERANCE):
                     self.added_rects[-1].add([self.rect_points[-1], self.rect_points[0]])
                     self.new_rect()
                 else:
@@ -209,3 +213,9 @@ class Plot:
         fig.canvas.mpl_connect('button_press_event', self.callback.on_click)
         plt.show()
         self.callback.draw()
+
+
+def get_scene():
+    plot = Plot()
+    plot.draw()
+    return plot.get_added_elements()

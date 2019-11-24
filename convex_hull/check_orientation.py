@@ -10,6 +10,9 @@ def get_sign(a, error=10 ** (-8)):
         return 0
 
 
+# return -1 if point "c" is on the right of the line form "a" to "b"
+# 1 if it's on the left side
+# and 0 if its more or less on the line
 def calc_det_sign1(a, b, c, error=10 ** (-8)):
     temp = np.array([[a[0], a[1], 1],
                      [b[0], b[1], 1],
@@ -19,6 +22,7 @@ def calc_det_sign1(a, b, c, error=10 ** (-8)):
     return get_sign(result, error)
 
 
+# the same as calc_det_sign1 just different method of computing
 def calc_det_sign2(a, b, c, error=10 ** (-8)):
     temp = np.array([[(a[0] - c[0]), (a[1] - c[1])],
                      [(b[0] - c[0]), (b[1] - c[1])]])
@@ -35,11 +39,6 @@ def how_many_different_result(c_points, a=(0, 0), b=(1, 1), error=10 ** (-8)):
         sign2 = calc_det_sign2(a, b, c, error)
         if sign1 != sign2:
             result.append(c)
-    return result
-
-
-def change_precision(a, precision):
-    result = (precision(a[0]), precision(a[1]))
     return result
 
 

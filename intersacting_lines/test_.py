@@ -1,9 +1,7 @@
 import unittest
-import heapq
-from sortedcontainers import SortedDict
-from crossing_lines import crossing_lines_algorithm as cla
-from crossing_lines.Line import Line
-from crossing_lines.state_structure import StateStructure
+from intersacting_lines import intersecting_lines_algorithm as cla
+from intersacting_lines.Line import Line
+from intersacting_lines.state_structure import StateStructure
 
 
 class Test(unittest.TestCase):
@@ -20,16 +18,14 @@ class Test(unittest.TestCase):
         i += 2
 
     def test_cross_point(self):
-        self.assertEqual((1, 1), cla.cross_point(self.test_lines1[0], self.test_lines1[1]))
-        self.assertEqual((1, 1), cla.cross_point(self.test_lines2[0], self.test_lines2[1]))
+        self.assertEqual((1, 1), self.test_lines1[0].cross_point(self.test_lines1[1]))
+        self.assertEqual((1, 1), self.test_lines2[0].cross_point(self.test_lines2[1]))
 
     def test_initialize_event_point(self):
         result = [(-2, 3), (-1, 1), (0, 0), (0, 2), (1, 1.5), (1.5, 2.5), (2, 0), (2, 2)]
         event_points = cla.initialize_event_points(self.lines)
-        i = 0
-        while event_points:
-            self.assertEqual(result[i], heapq.heappop(event_points))
-            i += 1
+        for i in range(len(result)):
+            self.assertEqual(result[i], event_points[i])
 
     def test_associate_lines_and_points(self):
         lines_and_points = cla.associate_lines_and_points(self.lines)
@@ -46,19 +42,19 @@ class Test(unittest.TestCase):
         self.assertEqual("crossing", cla.determine_event_type(self.lines[3], (4, 5)))
 
     def test_get_index(self):
-        sd = SortedDict()
-        for i, point in enumerate(self.points):
-            sd[point] = i
-        sorted_points = [(-2, 3), (-1, 1), (0, 0), (0, 2), (1, 1.5), (1.5, 2.5), (2, 0), (2, 2)]
+        state_structure = StateStructure()
+        for point in self.points:
+            state_structure.add(point)
+        sorted_points = [(0, 0), (2, 0), (-1, 1), (1, 1.5), (0, 2), (2, 2), (1.5, 2.5), (-2, 3)]
         for i, point in enumerate(sorted_points):
-            self.assertEqual(i, cla.get_index(sd, point))
+            self.assertEqual(i, state_structure.get_index(point))
 
     def test_are_crossing(self):
-        self.assertTrue(cla.are_crossing(self.lines[0], self.lines[1]))
+        self.assertTrue(self.lines[0].crosses(self.lines[1]))
 
         i = 1
         while i < len(self.lines) - 1:
-            self.assertFalse(cla.are_crossing(self.lines[i], self.lines[i + 1]))
+            self.assertFalse(self.lines[i].crosses(self.lines[i + 1]))
             i += 1
 
     def test_initialize_state_structure(self):
@@ -83,16 +79,7 @@ class Test(unittest.TestCase):
 
     def test_change_position(self):
         state_structure = StateStructure(self.points)
-
-        state_structure.change_position((0, 0))
-        state_structure.change_position((2, 0))
-        state_structure.change_position((-1, 1))
-        state_structure.change_position((2, 2))
-
-        final_points = [(0, 0), (2, 0), (1, 1.5), (-1, 1), (0, 2), (1.5, 2.5), (2, 2), (-2, 3)]
-
-        for i, point in enumerate(state_structure.points):
-            self.assertEqual(final_points[i], point)
+        return 0
 
 
 if __name__ == "__main__":
