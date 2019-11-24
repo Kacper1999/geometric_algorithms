@@ -64,10 +64,7 @@ def visualize_intersecting_lines_algorithm(lines=None):
         prev_point = current_point
         actualize_prior_q(current_point, prior_q, state_structure, lines_and_points)
 
-    plot = Plot(scenes)
-    plot.draw()
-
-    return crossing_points
+    return scenes
 
 
 def main():
