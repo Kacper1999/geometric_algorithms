@@ -1,0 +1,4 @@
+get_points_collection - nie przyjmuje argumentów, pozwala samodzielnie wprowadzic punkty które zwraca jako obiekt
+typu PointsCollection
+
+get_points - działą jak get_points_collection zwraca liste obiektów typu Point

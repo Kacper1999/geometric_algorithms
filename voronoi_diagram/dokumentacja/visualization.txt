@@ -1,0 +1,1 @@
+visualize_bisections - nie przyjmuje argumentów, pozwala wprowadzić punkty oraz zobaczyć ich bisekcję

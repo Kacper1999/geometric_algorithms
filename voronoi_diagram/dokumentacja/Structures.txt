@@ -19,10 +19,15 @@ Gdy typ lini nie został podany podana linia będzie odcinkiem
 Gdy linia jest półprostą self.start punkt startu, a self.end to wektor mówiący o kierunku półprostej
 Gdy linia jest odcinkiem self.start to punkt startu, a self.end to punkt końca odcinka
 Metody w klasie:
+    get_y_at - przyjmuje liczbe x i zwraca liczbę y = ax + b
     lineCoinainsPoint - przyjmuje obiekt klasy Point. Jeśli podany punkt zawiera się w tej linii zwraca True, W przeciwnym przypadku False
     doLinesCross - przyjmuje obiekt klasy Line. Jeśli podana linia przcina linię na której zostałą wywołana metoda zwraca True, W przeciwnym przypadku False
     crossingPoint - przyjmuje obiekt klasy Line. Jeśli podana linia nie przcina linię na której zostałą wywołana metoda zwraca False. W przciwnym przypadku zwraca obiekt klasy Point którego koodynaty odpowiadają punktowi przecięcia podanych dwóch linii
 Atrybuty klasy
+    lineType - typ lini (LineType.ODCINEK lub LineType.POLPROSTA)
+    slope - współczynnik a równania lini y = ax + b
+    intercept - współczynnik b
+    v - wektor mówiący o kierunku lini
     start - punkt początkowy odcinka
     end - punkt końcowy odcinka lub wektor kierunku w przypadku półprostej
 
