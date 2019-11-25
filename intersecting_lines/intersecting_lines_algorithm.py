@@ -66,7 +66,7 @@ def actualize_prior_q(current_point, prior_q, state_structure, lines_and_points)
             line1 = state_structure[key1]
             line2 = state_structure[key2]
             if line1.crosses(line2):
-                cross_point = line1.cross_point(line2)
+                cross_point = line1.crossing_points(line2)
                 lines_and_points[cross_point] = line1
                 prior_q.add(cross_point)
 

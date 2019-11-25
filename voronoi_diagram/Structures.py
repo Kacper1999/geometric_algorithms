@@ -29,7 +29,7 @@ class Point:
     def distance(self, second):
         return abs(self.x - second.x) + abs(self.y - second.y)
 
-    def findPointWithEqualDistance(self, firstPoint, secondPoint): # TODO done
+    def findPointWithEqualDistance(self, firstPoint, secondPoint):
         # Zwraca punkt znajdujący sie w równej odległości od 3 podanych punktów
         # Jeśli takowy nie istnieje zwraca False
         bisection1 = Bisection(self, firstPoint)
@@ -77,7 +77,7 @@ class Line:
         self.end = endingPoint
         self.lineType = lineType
 
-        if self.lineType == LineType.POLPROSTA:  # TODO nwm jak bedziemy trzymali wektory jak na razie tuple wystarcza
+        if self.lineType == LineType.POLPROSTA:
             self.v = (self.end.x, self.end.y)
         else:
             self.v = self.v = (
@@ -87,11 +87,14 @@ class Line:
             # ze wygodnie (np. przy wizualizacji) byloby miec zapisane gdzies wspolczynniki rownania lini
             self.slope = self.v[1] / self.v[0]
             self.intercept = self.start.y - self.slope * self.start.x
+            self.is_vertical = False
+        else:
+            self.is_vertical = True
 
     def get_y_at(self, x):
         return self.slope * x + self.intercept
 
-    def lineCoinainsPoint(self, point):  # True jeżeli punkt należy do prostej False w przeciwnym przyapdku
+    def lineContainsPoint(self, point):  # True jeżeli punkt należy do prostej False w przeciwnym przyapdku
         if (self.lineType == LineType.POLPROSTA):
             if (orientation(self.start, self.start + self.end, point) != 0): return False
 
@@ -132,10 +135,10 @@ class Line:
         o3 = orientation(pom2.start, pom2.end, pom1.start)
         o4 = orientation(pom2.start, pom2.end, pom1.end)
 
-        if (pom1.lineCoinainsPoint(pom2.start)): return True
-        if (pom1.lineCoinainsPoint(pom2.end)): return True
-        if (pom2.lineCoinainsPoint(pom1.start)): return True
-        if (pom2.lineCoinainsPoint(pom1.end)): return True
+        if (pom1.lineContainsPoint(pom2.start)): return True
+        if (pom1.lineContainsPoint(pom2.end)): return True
+        if (pom2.lineContainsPoint(pom1.start)): return True
+        if (pom2.lineContainsPoint(pom1.end)): return True
 
         if (o1 != o2 and o3 != o4):
             return True
@@ -160,10 +163,10 @@ class Line:
             pom2 = secondLine
 
         if (abs(pom1.start.x - pom1.end.x) < EPS and abs(pom2.start.x - pom2.end.x) < EPS):
-            if (pom1.lineCoinainsPoint(pom2.start)): return pom2.start
-            if (pom1.lineCoinainsPoint(pom2.end)): return pom2.end
-            if (pom2.lineCoinainsPoint(pom1.start)): return pom1.start
-            if (pom2.lineCoinainsPoint(pom1.end)): return pom1.end
+            if (pom1.lineContainsPoint(pom2.start)): return pom2.start
+            if (pom1.lineContainsPoint(pom2.end)): return pom2.end
+            if (pom2.lineContainsPoint(pom1.start)): return pom1.start
+            if (pom2.lineContainsPoint(pom1.end)): return pom1.end
 
         elif (abs(pom1.start.x - pom1.end.x) < EPS):
             a = (pom2.end.y - pom2.start.y) / (pom2.end.x - pom2.start.x)
@@ -262,6 +265,36 @@ class Bisection:
             strPom += "\n"
 
         return str(strPom)
+
+
+class TaxiCabParabola:  # TODO mozliwie zle zaimplementowane crossing_points ale jest tak proste ze nwm co tam moze nie dzialc
+    def __init__(self, point, sweep_line_position):
+        if sweep_line_position > point.y:  # parabola nie istnieje ponizej miotły
+            return
+
+        self.point = point
+        self.sweep_line_position = sweep_line_position
+        d = self.point.y - sweep_line_position
+        mid_point = Point(self.point.x, d / 2 + sweep_line_position)
+
+        self.left_end_point = Point(self.point.x - d, self.point.y)
+        self.left_vertical_line = Line(self.left_end_point, Point(1, 0), LineType.POLPROSTA)
+        self.left_line = Line(self.left_end_point, mid_point)
+
+        self.right_end_point = Point(self.point.x + d, self.point.y)
+        self.right_line = Line(mid_point, self.right_end_point)
+        self.right_vertical_line = Line(self.right_end_point, Point(1, 0), LineType.POLPROSTA)
+
+        self.lines = [self.left_vertical_line, self.left_line, self.right_line, self.right_vertical_line]
+
+    def crossing_points(self, second_parabola):  # zwraca punkt przeciecia paraboli
+        # nie bierze pod uwage nakłądania sie lini paraboli
+        crossing_points = set()
+        for line1 in self.lines:
+            for line2 in second_parabola.lines:
+                if line1.doLinesCross(line2):
+                    crossing_points.add(line1.crossingPoint(line2))
+        return crossing_points
 
 # def FortuneAlgorithm(points):
 #     heap = []

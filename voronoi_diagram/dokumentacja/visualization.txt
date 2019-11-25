@@ -1,1 +1,16 @@
-visualize_bisections - nie przyjmuje argumentów, pozwala wprowadzić punkty oraz zobaczyć ich bisekcję
+visualize_bisections(display=True, lower_left=(0, 0), upper_right=(1, 1), points_collection=None)
+- przyjmuje 4 argumenty: display bool który wpływa na wyswietlenie się sceny (default=True)
+lower_left, upper_right tuple wyznaczajacy granice wizualizacji
+points_collection punkty w formacie PointsCollection (default=None wtedy wprowadzamy z myszki)
+polzwala wprowadzić punkty oraz zobaczyć ich symetralne, zwraca scene z punktami oraz symetralnymi
+
+visualize_points_with_equal_dist(display=True, lower_left=(0, 0), upper_right=(1, 1), points_collection=None)
+- przujmuje takie same argumenty jak visualize_bisections które pełnia taką samą role
+pozwala wprowadzić punkty oraz zobaczyć ich sumetralne wraz z punktami równo odległymi od dowolnej trójki punktów
+zwrac scene z wprowadzonymi punktami, punktami rowno odległymi oraz symetralnymi
+
+visualize_parabolas(sweep_line_position=0, display=True, upper_right=(1, 1), points_collection=None)
+- przyjmuje pozycje miotły (sweep_line_position default 0)
+points_collection, display, upper_right podobnie jak funkcje wyzej
+nie potrzebujemy lower_left poniewaz linie paraboli ida tylko w góre
+zwraca scene z wprowadzonymi puktami, punktami przeciecia paraboli (w kolorze czerwonym) oraz same parabole

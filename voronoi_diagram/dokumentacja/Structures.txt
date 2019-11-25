@@ -42,3 +42,16 @@ Atrybuty klasy
     lines - tablica przechowująca linie w postaci instancji klasy Line
     firstPoint, oraz secondPoint - punkty (obiekty klasy Point) na podstawie których były wyznaczone linie
 
+
+Klasa TaxiCabParabol
+Klasa przechowująca linie któe sa w takiej samej odległosci od punktu jak i od miotły (w metryce euklidesowej sa to parabole w taksówkowej odcinki i polproste)
+Konstruktor przyjmuje punkt oraz pozycje miotly oraz ustala wszystkie parametry paraboli
+Metody klasy
+    -crossing_points przyjmuje drugą parabole i zwraca zbiór punktów przecięcia się parabol
+Atrybuty klasy
+    point - punkt wzgledem którego tworzona jest parabola
+    sweepin_line_position - pozycja miotły (współrzędna y)
+    left(/right)_end_point - lewy (/prawy) punkt w którym parabola zmienia się z odcinka na pionową półprostą
+    left(/right)_vertical_line - lewa(/prawa) półprosta paraboli
+    left(/right)_line - lewy(/prawy) odcinek paraboli
+    lines - lista lini w porzadku: [left_vertical_line, left_line, right_line, right_vertical_line]
