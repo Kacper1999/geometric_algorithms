@@ -29,7 +29,7 @@ class Point:
     def distance(self, second):
         return abs(self.x - second.x) + abs(self.y - second.y)
 
-    def findPointWithEqualDistance(self, firstPoint, secondPoint):
+    def findPointWithEqualDistance(self, firstPoint, secondPoint): # TODO done
         # Zwraca punkt znajdujący sie w równej odległości od 3 podanych punktów
         # Jeśli takowy nie istnieje zwraca False
         bisection1 = Bisection(self, firstPoint)
