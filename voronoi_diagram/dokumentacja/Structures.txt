@@ -50,6 +50,7 @@ Metody klasy
     -crossing_points przyjmuje drugą parabole i zwraca zbiór punktów przecięcia się parabol
 Atrybuty klasy
     point - punkt wzgledem którego tworzona jest parabola
+    mid_point - punkt dokładnie pod punktem wzgledem ktorego tworzymu parabole oraz w polowie miedzy miotłą a tym punktem
     sweepin_line_position - pozycja miotły (współrzędna y)
     left(/right)_end_point - lewy (/prawy) punkt w którym parabola zmienia się z odcinka na pionową półprostą
     left(/right)_vertical_line - lewa(/prawa) półprosta paraboli

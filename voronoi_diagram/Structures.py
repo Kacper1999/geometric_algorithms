@@ -95,6 +95,7 @@ class Line:
         return self.slope * x + self.intercept
 
     def lineContainsPoint(self, point):  # True jeżeli punkt należy do prostej False w przeciwnym przyapdku
+
         if (self.lineType == LineType.POLPROSTA):
             if (orientation(self.start, self.start + self.end, point) != 0): return False
 
@@ -113,6 +114,35 @@ class Line:
         return False
 
     def doLinesCross(self, secondLine):  # True jeżli linie się przecinają
+        # TODO Dodalem sprawdzanie sie przecinania lini pionowych ale jest brzydkie strasznie
+        # jak chcesz to mozesz upieknic bo nwm jak reszta kodu dziala i tez nwm w jakim stopniu bede mogl sprawdzic
+        # czy to zawsze dobrze dziala
+        if self.is_vertical or secondLine.is_vertical:
+            if self.is_vertical and secondLine.is_vertical:
+                return False
+            if self.is_vertical:
+                vertical = self
+                not_vertical = secondLine
+            else:
+                vertical = secondLine
+                not_vertical = self
+
+            if not_vertical.lineType == LineType.POLPROSTA:
+                not_vertical_end_point = not_vertical.end.multiplyByScalar(largeNumber)
+            else:
+                not_vertical_end_point = not_vertical.end
+
+            # taki trick w tym ifie bo nwm czy secondLine.start.x < secondLine.end.x to mnoze roznice
+            # i to daje <0 dla ulozenia secondLine.leftPoint < self.start.x < secondLine.rightPoint
+            if (not_vertical.start.x - vertical.start.x) * (not_vertical_end_point.x - vertical.start.x) < 0:
+                y = not_vertical.get_y_at(vertical.start.x)
+                if vertical.lineType == LineType.POLPROSTA:
+                    line_goes_up = vertical.end.y > 0
+                    if line_goes_up:
+                        return y > vertical.start.y
+                    return y < vertical.start.y
+                return (y - vertical.start.y) * (y - vertical.end.y) < 0
+            return False
 
         if (self.lineType == LineType.POLPROSTA and secondLine.lineType == LineType.POLPROSTA):
             pom1 = Line(self.start, self.start + self.end.multiplyByScalar(largeNumber))
@@ -147,6 +177,21 @@ class Line:
 
     def crossingPoint(self, secondLine):
         if (not self.doLinesCross(secondLine)): return False
+
+        # TODO tutaj tez dodalem
+        if self.is_vertical or secondLine.is_vertical:
+            if self.is_vertical and secondLine.is_vertical:  # chyba doLinesCross to wychwytuje ale co tam
+                return False
+            if self.is_vertical:
+                vertical = self
+                not_vertical = secondLine
+            else:
+                vertical = secondLine
+                not_vertical = self
+            x = vertical.start.x
+            y = not_vertical.get_y_at(x)
+            return Point(x, y)
+
         if (self.lineType == LineType.POLPROSTA and secondLine.lineType == LineType.POLPROSTA):
             pom1 = Line(self.start, self.start + self.end.multiplyByScalar(largeNumber))
             pom2 = Line(secondLine.start, secondLine.start + secondLine.end.multiplyByScalar(largeNumber))
@@ -275,15 +320,15 @@ class TaxiCabParabola:  # TODO mozliwie zle zaimplementowane crossing_points ale
         self.point = point
         self.sweep_line_position = sweep_line_position
         d = self.point.y - sweep_line_position
-        mid_point = Point(self.point.x, d / 2 + sweep_line_position)
+        self.mid_point = Point(self.point.x, d / 2 + sweep_line_position)
 
         self.left_end_point = Point(self.point.x - d, self.point.y)
-        self.left_vertical_line = Line(self.left_end_point, Point(1, 0), LineType.POLPROSTA)
-        self.left_line = Line(self.left_end_point, mid_point)
+        self.left_vertical_line = Line(self.left_end_point, Point(0, 1), LineType.POLPROSTA)
+        self.left_line = Line(self.left_end_point, self.mid_point)
 
         self.right_end_point = Point(self.point.x + d, self.point.y)
-        self.right_line = Line(mid_point, self.right_end_point)
-        self.right_vertical_line = Line(self.right_end_point, Point(1, 0), LineType.POLPROSTA)
+        self.right_line = Line(self.mid_point, self.right_end_point)
+        self.right_vertical_line = Line(self.right_end_point, Point(0, 1), LineType.POLPROSTA)
 
         self.lines = [self.left_vertical_line, self.left_line, self.right_line, self.right_vertical_line]
 
@@ -296,6 +341,27 @@ class TaxiCabParabola:  # TODO mozliwie zle zaimplementowane crossing_points ale
                     crossing_points.add(line1.crossingPoint(line2))
         return crossing_points
 
+
+def main():
+    a1 = Point(0, 1)
+    parabola1 = TaxiCabParabola(a1, 0)
+    print(parabola1.left_end_point)
+    print(parabola1.right_end_point)
+
+    a2 = Point(0.5, 0.25)
+    parabola2 = TaxiCabParabola(a2, 0)
+    print(parabola2.left_end_point)
+    print(parabola2.right_end_point)
+    print(parabola2.left_vertical_line.v)
+    points = parabola1.crossing_points(parabola2)
+    for point in points:
+        print(point)
+
+
+
+
+if __name__ == "__main__":
+    main()
 # def FortuneAlgorithm(points):
 #     heap = []
 #     for i in points:
