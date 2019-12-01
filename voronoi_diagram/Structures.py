@@ -61,6 +61,9 @@ class Point:
     def divideByScalar(self, scalar):
         return Point(self.x / scalar, self.y / scalar)
 
+    def to_tuple(self):
+        return self.x, self.y
+
 
 class LineType(Enum):
     ODCINEK = 'ODCINEK'
