@@ -9,8 +9,6 @@ EPS = 10e-8
 largeNumber = 1000000
 
 
-# TODO uzywam todo zebys widzial co ci gdzie dodalem w kodzie
-
 def det(a, b, c):  # Wyznacznik pomiędzy 3 punktami
     return a.x * b.y + a.y * c.x + b.x * c.y - a.x * c.y - a.y * b.x - b.y * c.x
 
@@ -60,6 +58,10 @@ class Point:
 
     def divideByScalar(self, scalar):
         return Point(self.x / scalar, self.y / scalar)
+
+    def to_tuple(self):  # TODO dodalem bo mysle ze sie przyda jak trzeba bedzie sortowac po x
+        return self.x, self.y
+
 
 
 class LineType(Enum):
@@ -312,7 +314,7 @@ class Bisection:
         return str(strPom)
 
 
-class TaxiCabParabola:  # TODO mozliwie zle zaimplementowane crossing_points ale jest tak proste ze nwm co tam moze nie dzialc
+class TaxiCabParabola:
     def __init__(self, point, sweep_line_position):
         if sweep_line_position > point.y:  # parabola nie istnieje ponizej miotły
             return
@@ -332,7 +334,7 @@ class TaxiCabParabola:  # TODO mozliwie zle zaimplementowane crossing_points ale
 
         self.lines = [self.left_vertical_line, self.left_line, self.right_line, self.right_vertical_line]
 
-    def crossing_points(self, second_parabola):  # zwraca punkt przeciecia paraboli
+    def crossing_points(self, second_parabola):  # zwraca WSZYSTKIE punkty przeciecia paraboli
         # nie bierze pod uwage nakłądania sie lini paraboli
         crossing_points = set()
         for line1 in self.lines:
@@ -340,6 +342,23 @@ class TaxiCabParabola:  # TODO mozliwie zle zaimplementowane crossing_points ale
                 if line1.doLinesCross(line2):
                     crossing_points.add(line1.crossingPoint(line2))
         return crossing_points
+
+    def proper_crossing_point(self, second_parabola):  # TODO opis za długi odsyłąm do dokumentacji nwm czy to faktycznie
+        # wszystkie punkty ktore moga nas interesowac
+        if self.point.x < second_parabola.point.x:
+            left_parabola = self
+            right_parabola = second_parabola
+        else:
+            left_parabola = second_parabola
+            right_parabola = self
+        if left_parabola.right_vertical_line.doLinesCross(right_parabola.left_line):
+            return left_parabola.right_vertical_line.crossingPoint(right_parabola.left_line)
+        if left_parabola.right_line.doLinesCross(right_parabola.left_line):
+            return left_parabola.right_line.crossingPoint(right_parabola.left_line)
+        if left_parabola.right_line.doLinesCross(right_parabola.left_vertical_line):
+            return left_parabola.right_line.crossingPoint(right_parabola.left_vertical_line)
+        return False
+
 
 
 def main():
@@ -356,8 +375,6 @@ def main():
     points = parabola1.crossing_points(parabola2)
     for point in points:
         print(point)
-
-
 
 
 if __name__ == "__main__":
