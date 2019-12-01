@@ -1,6 +1,7 @@
 from bintrees import AVLTree
 from voronoi_diagram.Structures import TaxiCabParabola
 
+# Do fortuny pewnie sie nie przyda
 
 class StateStructure:
     def __init__(self, points):
