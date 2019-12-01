@@ -62,8 +62,6 @@ def visualize_points_with_equal_dist(display=True, lower_left=(0, 0), upper_righ
     return scene
 
 
-# TODO nie działa wydaje mi sie ze z powodu nie obslugiwania lini pionowych.
-# wszyskto ladnie wypisuje oprocz punktow przeciec
 def visualize_parabolas(sweep_line_position=0, display=True, upper_right=(1, 1), points_collection=None):
     if points_collection is None:
         points_collection = get_points_collection()
@@ -96,10 +94,42 @@ def visualize_parabolas(sweep_line_position=0, display=True, upper_right=(1, 1),
     return scene
 
 
+def visualize_proper_crossing_points(sweep_line_position=0, display=True, upper_right=(1, 1), points_collection=None):
+    if points_collection is None:
+        points_collection = get_points_collection()
+    parabolas = []
+    for point in points_collection.points:
+        parabolas.append(TaxiCabParabola(Point(point[0], point[1]), sweep_line_position))
+    lines = []
+    for parabola in parabolas:
+        for line in parabola.lines:
+            start_point = (line.start.x, line.start.y)
+            if line.lineType == LineType.POLPROSTA:
+                end_point = (line.start.x, upper_right[1])
+            else:
+                end_point = (line.end.x, line.end.y)
+            lines.append([start_point, end_point])
+
+    proper_crossing_points = []
+    for i, parabola1 in enumerate(parabolas[:-1]):
+        for parabola2 in parabolas[i + 1:]:
+            cross_point = parabola1.proper_crossing_point(parabola2)
+            if cross_point:
+                proper_crossing_points.append(cross_point.to_tuple())
+
+    scene = Scene([points_collection,
+                   PointsCollection(proper_crossing_points, color="red")],
+                  [LinesCollection(lines)])
+    if display:
+        plot = Plot([scene])
+        plot.draw()
+    return scene
+
+
 def main():
     # visualize_bisections()
     # visualize_points_with_equal_dist()
-    visualize_parabolas()
+    visualize_proper_crossing_points()
 
 
 if __name__ == "__main__":

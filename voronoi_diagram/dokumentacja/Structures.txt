@@ -6,6 +6,7 @@ Metody w klasie:
     klasa posiada przeładowanie operatorów dodawania i odejmowania
     multiplyByScalar - przyjmuje liczbę jako argument zwraca obiekt klasy Point, gdzie każda współrzędna została przemnożona przez podany skalar
     divideByScalar - przyjmuje liczbę jako argument zwraca obiekt klasy Point, gdzie każda współrzędna została podzielona przez podany skalar
+    to_tuple - zwraca tuple reprezentujacy punkt tzn. (self.x, self.y)
 Atrybuty klasy
     x - koordynat x-owy punktu
     y - koordynat y-owy punktu
@@ -47,7 +48,12 @@ Klasa TaxiCabParabol
 Klasa przechowująca linie któe sa w takiej samej odległosci od punktu jak i od miotły (w metryce euklidesowej sa to parabole w taksówkowej odcinki i polproste)
 Konstruktor przyjmuje punkt oraz pozycje miotly oraz ustala wszystkie parametry paraboli
 Metody klasy
-    -crossing_points przyjmuje drugą parabole i zwraca zbiór punktów przecięcia się parabol
+    -crossing_points przyjmuje drugą parabole i zwraca zbiór wszystkich punktów przecięcia się parabol
+    -crossing_point przyjmuje drugą prabole ustala ktora jest "left_parabola" oraz "right_parabola" na podstawie x-owej współrzędnej
+        punktów na których podstawie tworzone były te parabole.
+        Zwraca jeden punkt przeciecia lini left_parabola.right_vertical_line z right_parabola.left_line lub
+        left_parabola.right_line z right_parabola.(left_line /left_vertical_line) jest to punkt który moze nas interesowac w trakcie tworzenia
+        struktury stanu przy wyliczaniu diagramu voronoi
 Atrybuty klasy
     point - punkt wzgledem którego tworzona jest parabola
     mid_point - punkt dokładnie pod punktem wzgledem ktorego tworzymu parabole oraz w polowie miedzy miotłą a tym punktem
