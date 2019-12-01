@@ -1,8 +1,7 @@
 from configuration_for_visualization import *
 from voronoi_diagram.get_points import get_points_collection
 from voronoi_diagram.Structures import LineType, Bisection, Point, TaxiCabParabola
-from voronoi_diagram.bowyer_watson import get_outer_points
-
+from voronoi_diagram.bowyer_watson import get_outer_points, bowyer_watson
 
 def visualize_bisections(display=True, lower_left=(0, 0), upper_right=(1, 1), points_collection=None):
     if points_collection is None:
@@ -143,12 +142,26 @@ def visualize_outer_points(display=True, points_collection=None):
         plot.draw()
     return scene
 
+def visualize_triangulation(display=True, points_collection=None):
+    if points_collection is None:
+        points_collection = get_points_collection()
+    points = []
+    for point in points_collection.points:
+        points.append(Point(point[0], point[1]))
+    triangulation = bowyer_watson(points)
+    p1, p2, p3 = get_outer_points(points)
+    lines = [[p1.to_tuple(), p2.to_tuple()], [p1.to_tuple(), p3.to_tuple()], [p2.to_tuple(), p3.to_tuple()]]
+    node = triangulation.root
+    while not node.is_leaf():
+
+
+
 
 def main():
     # visualize_bisections()
     # visualize_points_with_equal_dist()
     # visualize_proper_crossing_points()
-    visualize_outer_points()
+    # visualize_outer_points()
 
 
 if __name__ == "__main__":
