@@ -26,7 +26,7 @@ def createVoronoiPoints(tab):
     return foundPoints 
 
 def isVoronoiLine(voronoiPoints, i, j): #Sprawdza czy linia pomiędzy punktami voronoi i i j należy do diagramu
-    if(i == j) return False;     
+    if(i == j): return False;     
     if(len(voronoiPoints[i].closestPoints.intersection(voronoiPoints[j].closestPoints))) == 2: return True
     return False
 
