@@ -1,8 +1,4 @@
-import math
-import heapq
-
 import numpy as np
-from bintrees import AVLTree
 from enum import Enum
 
 EPS = 10e-8
@@ -42,9 +38,7 @@ class Point:
         return stri
 
     def __eq__(self, second):
-        return (abs(self.x-second.x) < EPS and abs(self.y-second.y) < EPS)
-
-    
+        return (abs(self.x - second.x) < EPS and abs(self.y - second.y) < EPS)
 
     def __add__(self, point):
         return Point(self.x + point.x, self.y + point.y)
@@ -58,9 +52,8 @@ class Point:
     def divideByScalar(self, scalar):
         return Point(self.x / scalar, self.y / scalar)
 
-    def to_tuple(self):  # TODO dodalem bo mysle ze sie przyda jak trzeba bedzie sortowac po x
+    def to_tuple(self):
         return self.x, self.y
-
 
 
 class LineType(Enum):
@@ -84,8 +77,7 @@ class Line:
             self.v = self.v = (
                 self.end.x - self.start.x, self.end.y - self.start.y)
 
-        if self.v[0] != 0:  # TODO tutaj akurat trzeba cos zrobic bo nwm jak traktujemy pionowe linie? wydaje mi sie
-            # ze wygodnie (np. przy wizualizacji) byloby miec zapisane gdzies wspolczynniki rownania lini
+        if self.v[0] != 0:
             self.slope = self.v[1] / self.v[0]
             self.intercept = self.start.y - self.slope * self.start.x
             self.is_vertical = False
@@ -114,10 +106,7 @@ class Line:
 
         return False
 
-    def doLinesCross(self, secondLine):  # True jeżli linie się przecinają
-        # TODO Dodalem sprawdzanie sie przecinania lini pionowych ale jest brzydkie strasznie
-        # jak chcesz to mozesz upieknic bo nwm jak reszta kodu dziala i tez nwm w jakim stopniu bede mogl sprawdzic
-        # czy to zawsze dobrze dziala
+    def doLinesCross(self, secondLine):
         if self.is_vertical or secondLine.is_vertical:
             if self.is_vertical and secondLine.is_vertical:
                 return False
@@ -180,7 +169,6 @@ class Line:
         # print(self, secondLine)
         if (not self.doLinesCross(secondLine)): return False
 
-        # TODO tutaj tez dodalem
         if self.is_vertical or secondLine.is_vertical:
             if self.is_vertical and secondLine.is_vertical:  # chyba doLinesCross to wychwytuje ale co tam
                 return False
@@ -209,7 +197,6 @@ class Line:
             pom1 = self
             pom2 = secondLine
 
-        
         if (pom1.lineContainsPoint(pom2.start)): return pom2.start
         if (pom1.lineContainsPoint(pom2.end)): return pom2.end
         if (pom2.lineContainsPoint(pom1.start)): return pom1.start
@@ -236,10 +223,10 @@ class Line:
             y = a1 * x + b1
             return Point(x, y)
 
-    def makeOdcinekFromPolprosta(self, endingPoint): #Zamienia półprostą na odcinek o końcu w endingPoint
-        if(self.lineType == LineType.POLPROSTA and self.lineContainsPoint(endingPoint)):
+    def makeOdcinekFromPolprosta(self, endingPoint):  # Zamienia półprostą na odcinek o końcu w endingPoint
+        if (self.lineType == LineType.POLPROSTA and self.lineContainsPoint(endingPoint)):
             self.end = endingPoint
-            
+
             self.lineType = LineType.ODCINEK
 
     def __str__(self):
@@ -315,26 +302,28 @@ class Bisection:
 
     def restrictBisection(self, firstPoint, secondPoint):
         firstLine = secondLine = None
-        for i in range(len(self.lines)): #Znajdź linie które zawierają te punkty
+        for i in range(len(self.lines)):  # Znajdź linie które zawierają te punkty
             if self.lines[i].lineContainsPoint(firstPoint):
                 firstLine = i
             if self.lines[i].lineContainsPoint(secondPoint):
                 secondLine = i
-        
 
-        if(firstLine is None or secondLine is None): return #Oba punkty muszą należeć do symetralnej jeśli nie należą zwróć
+        if (
+                firstLine is None or secondLine is None): return  # Oba punkty muszą należeć do symetralnej jeśli nie należą zwróć
 
-        if(firstLine == secondLine): #Jeśli symetralną trzeba ograniczyć na dwóch punktach leżących na prostej
+        if (firstLine == secondLine):  # Jeśli symetralną trzeba ograniczyć na dwóch punktach leżących na prostej
             self.lines = [Line(firstPoint, secondPoint, LineType.ODCINEK)]
 
-        elif(self.lines[firstLine].lineType == LineType.POLPROSTA and self.lines[secondLine].lineType == LineType.POLPROSTA):
-            #Jeśli symetralną trzeba ograniczyć na dwóch różnych półprostych
+        elif (self.lines[firstLine].lineType == LineType.POLPROSTA and self.lines[
+            secondLine].lineType == LineType.POLPROSTA):
+            # Jeśli symetralną trzeba ograniczyć na dwóch różnych półprostych
             self.lines[firstLine].makeOdcinekFromPolprosta(firstPoint)
             self.lines[secondLine].makeOdcinekFromPolprosta(secondPoint)
         else:
             # Trzeci przypadek gdy trzeba ograniczyć półprostą i odcinek. 
 
-            if(self.lines[firstLine].lineType == LineType.POLPROSTA and self.lines[secondLine].lineType == LineType.ODCINEK):
+            if (self.lines[firstLine].lineType == LineType.POLPROSTA and self.lines[
+                secondLine].lineType == LineType.ODCINEK):
                 self.lines[firstLine].makeOdcinekFromPolprosta(firstPoint)
 
                 if (self.lines[secondLine].start == self.lines[firstLine].start):
@@ -345,20 +334,24 @@ class Bisection:
                     self.lines[secondLine].start = secondPoint
                     # print("Wchodzimy do przypadku 3.1.2")
 
-            elif(self.lines[firstLine].lineType == LineType.ODCINEK and self.lines[secondLine].lineType == LineType.POLPROSTA):
+            elif (self.lines[firstLine].lineType == LineType.ODCINEK and self.lines[
+                secondLine].lineType == LineType.POLPROSTA):
                 self.lines[secondLine].makeOdcinekFromPolprosta(secondPoint)
 
                 if (self.lines[secondLine].start == self.lines[firstLine].start):
                     self.lines[firstLine].end = firstPoint
                     # print("Wchodzimy do przypadku 3.2.1")
-    
+
                 else:
                     self.lines[firstLine].start = firstPoint
                     # print("Wchodzimy do przypadku 3.2.2")
 
-            if(0 != firstLine and 0 != secondLine): self.lines.pop(0)
-            elif(1 != firstLine and 1 != secondLine): self.lines.pop(1)
-            elif(2 != firstLine and 2 != secondLine): self.lines.pop(2)
+            if (0 != firstLine and 0 != secondLine):
+                self.lines.pop(0)
+            elif (1 != firstLine and 1 != secondLine):
+                self.lines.pop(1)
+            elif (2 != firstLine and 2 != secondLine):
+                self.lines.pop(2)
 
     def __str__(self):
         strPom = ''
@@ -369,75 +362,9 @@ class Bisection:
         return str(strPom)
 
 
-class TaxiCabParabola:
-    def __init__(self, point, sweep_line_position):
-        if sweep_line_position > point.y:  # parabola nie istnieje ponizej miotły
-            return
-
-        self.point = point
-        self.sweep_line_position = sweep_line_position
-        d = self.point.y - sweep_line_position
-        self.mid_point = Point(self.point.x, d / 2 + sweep_line_position)
-
-        self.left_end_point = Point(self.point.x - d, self.point.y)
-        self.left_vertical_line = Line(self.left_end_point, Point(0, 1), LineType.POLPROSTA)
-        self.left_line = Line(self.left_end_point, self.mid_point)
-
-        self.right_end_point = Point(self.point.x + d, self.point.y)
-        self.right_line = Line(self.mid_point, self.right_end_point)
-        self.right_vertical_line = Line(self.right_end_point, Point(0, 1), LineType.POLPROSTA)
-
-        self.lines = [self.left_vertical_line, self.left_line, self.right_line, self.right_vertical_line]
-
-    def crossing_points(self, second_parabola):  # zwraca WSZYSTKIE punkty przeciecia paraboli
-        # nie bierze pod uwage nakłądania sie lini paraboli
-        crossing_points = set()
-        for line1 in self.lines:
-            for line2 in second_parabola.lines:
-                if line1.doLinesCross(line2):
-                    crossing_points.add(line1.crossingPoint(line2))
-        return crossing_points
-
-    def proper_crossing_point(self, second_parabola):  # TODO opis za długi odsyłąm do dokumentacji nwm czy to faktycznie
-        # wszystkie punkty ktore moga nas interesowac
-        if self.point.x < second_parabola.point.x:
-            left_parabola = self
-            right_parabola = second_parabola
-        else:
-            left_parabola = second_parabola
-            right_parabola = self
-        if left_parabola.right_vertical_line.doLinesCross(right_parabola.left_line):
-            return left_parabola.right_vertical_line.crossingPoint(right_parabola.left_line)
-        if left_parabola.right_line.doLinesCross(right_parabola.left_line):
-            return left_parabola.right_line.crossingPoint(right_parabola.left_line)
-        if left_parabola.right_line.doLinesCross(right_parabola.left_vertical_line):
-            return left_parabola.right_line.crossingPoint(right_parabola.left_vertical_line)
-        return False
-
-
-
 def main():
-    a1 = Point(0, 1)
-    parabola1 = TaxiCabParabola(a1, 0)
-    # print(parabola1.left_end_point)
-    # print(parabola1.right_end_point)
-
-    a2 = Point(0.5, 0.25)
-    parabola2 = TaxiCabParabola(a2, 0)
-    # print(parabola2.left_end_point)
-    # print(parabola2.right_end_point)
-    # print(parabola2.left_vertical_line.v)
-    points = parabola1.crossing_points(parabola2)
-    # for point in points:
-    #     print(point)
-
-
+    pass
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
