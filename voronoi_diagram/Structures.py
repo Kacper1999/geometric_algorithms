@@ -41,11 +41,10 @@ class Point:
         stri = str(stri)
         return stri
 
-    def __lt__(self, second):
-        return self.y < second.y
+    def __eq__(self, second):
+        return (abs(self.x-second.x) < EPS and abs(self.y-second.y) < EPS)
 
-    def __gt__(self, second):
-        return self.y > second.y
+    
 
     def __add__(self, point):
         return Point(self.x + point.x, self.y + point.y)
@@ -178,6 +177,7 @@ class Line:
         return False
 
     def crossingPoint(self, secondLine):
+        # print(self, secondLine)
         if (not self.doLinesCross(secondLine)): return False
 
         # TODO tutaj tez dodalem
@@ -209,13 +209,13 @@ class Line:
             pom1 = self
             pom2 = secondLine
 
-        if (abs(pom1.start.x - pom1.end.x) < EPS and abs(pom2.start.x - pom2.end.x) < EPS):
-            if (pom1.lineContainsPoint(pom2.start)): return pom2.start
-            if (pom1.lineContainsPoint(pom2.end)): return pom2.end
-            if (pom2.lineContainsPoint(pom1.start)): return pom1.start
-            if (pom2.lineContainsPoint(pom1.end)): return pom1.end
+        
+        if (pom1.lineContainsPoint(pom2.start)): return pom2.start
+        if (pom1.lineContainsPoint(pom2.end)): return pom2.end
+        if (pom2.lineContainsPoint(pom1.start)): return pom1.start
+        if (pom2.lineContainsPoint(pom1.end)): return pom1.end
 
-        elif (abs(pom1.start.x - pom1.end.x) < EPS):
+        if (abs(pom1.start.x - pom1.end.x) < EPS):
             a = (pom2.end.y - pom2.start.y) / (pom2.end.x - pom2.start.x)
             b = pom2.start.y - pom2.start.x * a
             return Point(pom1.start.x, a * pom1.start.x + b)
@@ -235,6 +235,12 @@ class Line:
             x = (b2 - b1) / (a1 - a2)
             y = a1 * x + b1
             return Point(x, y)
+
+    def makeOdcinekFromPolprosta(self, endingPoint): #Zamienia półprostą na odcinek o końcu w endingPoint
+        if(self.lineType == LineType.POLPROSTA and self.lineContainsPoint(endingPoint)):
+            self.end = endingPoint
+            
+            self.lineType = LineType.ODCINEK
 
     def __str__(self):
         return '(({self.start.x},{self.start.y}),({self.end.x},{self.end.y})) {self.lineType}'.format(self=self)
@@ -256,6 +262,8 @@ class Bisection:
             wector = 1
         else:
             wector = -1
+
+        # print(firstPoint, secondPoint)
 
         if (abs(firstPoint.y - secondPoint.y) < abs(firstPoint.x - secondPoint.x)):
             if (firstPoint.y > secondPoint.y and firstPoint.x < secondPoint.x):
@@ -304,6 +312,53 @@ class Bisection:
                 if (i.doLinesCross(j)):
                     return i.crossingPoint(j)
         return False
+
+    def restrictBisection(self, firstPoint, secondPoint):
+        firstLine = secondLine = None
+        for i in range(len(self.lines)): #Znajdź linie które zawierają te punkty
+            if self.lines[i].lineContainsPoint(firstPoint):
+                firstLine = i
+            if self.lines[i].lineContainsPoint(secondPoint):
+                secondLine = i
+        
+
+        if(firstLine is None or secondLine is None): return #Oba punkty muszą należeć do symetralnej jeśli nie należą zwróć
+
+        if(firstLine == secondLine): #Jeśli symetralną trzeba ograniczyć na dwóch punktach leżących na prostej
+            self.lines = [Line(firstPoint, secondPoint, LineType.ODCINEK)]
+
+        elif(self.lines[firstLine].lineType == LineType.POLPROSTA and self.lines[secondLine].lineType == LineType.POLPROSTA):
+            #Jeśli symetralną trzeba ograniczyć na dwóch różnych półprostych
+            self.lines[firstLine].makeOdcinekFromPolprosta(firstPoint)
+            self.lines[secondLine].makeOdcinekFromPolprosta(secondPoint)
+        else:
+            # Trzeci przypadek gdy trzeba ograniczyć półprostą i odcinek. 
+
+            if(self.lines[firstLine].lineType == LineType.POLPROSTA and self.lines[secondLine].lineType == LineType.ODCINEK):
+                self.lines[firstLine].makeOdcinekFromPolprosta(firstPoint)
+
+                if (self.lines[secondLine].start == self.lines[firstLine].start):
+
+                    self.lines[secondLine].end = secondPoint
+                    # print("Wchodzimy do przypadku 3.1.1")
+                else:
+                    self.lines[secondLine].start = secondPoint
+                    # print("Wchodzimy do przypadku 3.1.2")
+
+            elif(self.lines[firstLine].lineType == LineType.ODCINEK and self.lines[secondLine].lineType == LineType.POLPROSTA):
+                self.lines[secondLine].makeOdcinekFromPolprosta(secondPoint)
+
+                if (self.lines[secondLine].start == self.lines[firstLine].start):
+                    self.lines[firstLine].end = firstPoint
+                    # print("Wchodzimy do przypadku 3.2.1")
+    
+                else:
+                    self.lines[firstLine].start = firstPoint
+                    # print("Wchodzimy do przypadku 3.2.2")
+
+            if(0 != firstLine and 0 != secondLine): self.lines.pop(0)
+            elif(1 != firstLine and 1 != secondLine): self.lines.pop(1)
+            elif(2 != firstLine and 2 != secondLine): self.lines.pop(2)
 
     def __str__(self):
         strPom = ''
@@ -364,23 +419,25 @@ class TaxiCabParabola:
 def main():
     a1 = Point(0, 1)
     parabola1 = TaxiCabParabola(a1, 0)
-    print(parabola1.left_end_point)
-    print(parabola1.right_end_point)
+    # print(parabola1.left_end_point)
+    # print(parabola1.right_end_point)
 
     a2 = Point(0.5, 0.25)
     parabola2 = TaxiCabParabola(a2, 0)
-    print(parabola2.left_end_point)
-    print(parabola2.right_end_point)
-    print(parabola2.left_vertical_line.v)
+    # print(parabola2.left_end_point)
+    # print(parabola2.right_end_point)
+    # print(parabola2.left_vertical_line.v)
     points = parabola1.crossing_points(parabola2)
-    for point in points:
-        print(point)
+    # for point in points:
+    #     print(point)
+
+
 
 
 if __name__ == "__main__":
     main()
-# def FortuneAlgorithm(points):
-#     heap = []
-#     for i in points:
-#         heap.append(i)
-#     heapq.heapify(heap)
+
+
+
+
+
