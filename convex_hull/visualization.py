@@ -129,10 +129,15 @@ def visualize_jarvis(points, error=10 ** (-8)):
 
 def main():
     random_points = rand_p.get_rand_points_rectangle(20)
-    scenes = visualize_graham(random_points)
+    # scenes = visualize_graham(random_points)
+    #
+    # plot = Plot(scenes)
+    # plot.draw()
 
-    plot = Plot(scenes)
-    plot.draw()
+    scenes1 = visualize_jarvis(random_points)
+
+    plot1 = Plot(scenes1)
+    plot1.draw()
 
 
 if __name__ == "__main__":

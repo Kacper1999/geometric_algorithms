@@ -112,13 +112,20 @@ def visualize_triangulation(polygon):
         triangulation.append(Line(vertices[-1], vertex))
         add_triangulation_scene(scenes, polygon, triangulation, stack, vertices[-1])
 
-    plot = Plot(scenes)
-    plot.draw()
+    return scenes
 
 
 def main():
-    visualize_point_classification()
+    plot1 = Plot()
+    plot1.draw()
 
+    figure = plot1.get_added_figure()
+    lines_collection = figure[0]
+    lines = lines_collection_to_lines(lines_collection)
+    polygon = Polygon(lines)
+    scenes = visualize_triangulation(polygon)
+    plot = Plot(scenes)
+    plot.draw()
 
 
 if __name__ == "__main__":

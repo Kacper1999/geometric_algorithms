@@ -68,7 +68,11 @@ def visualize_intersecting_lines_algorithm(lines=None):
 
 
 def main():
-    pass
+    lines = generate_lines()
+    scenes = visualize_intersecting_lines_algorithm()
+
+    plot = Plot(scenes)
+    plot.draw()
 
 
 if __name__ == "__main__":
