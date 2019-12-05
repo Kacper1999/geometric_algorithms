@@ -20,6 +20,7 @@ Gdy typ lini nie został podany podana linia będzie odcinkiem
 Gdy linia jest półprostą self.start punkt startu, a self.end to wektor mówiący o kierunku półprostej
 Gdy linia jest odcinkiem self.start to punkt startu, a self.end to punkt końca odcinka
 Metody w klasie:
+    makeOdcinekFromPolprosta - przyjmuje obiekt klasy punkt. Jeśli linia jest typu Polprosta, oraz punkt leży na linii to zamienia Polsprostą na odcinek o końcach w przyjętym punkcie oraz punkcie startowym półprostej
     get_y_at - przyjmuje liczbe x i zwraca liczbę y = ax + b
     lineCoinainsPoint - przyjmuje obiekt klasy Point. Jeśli podany punkt zawiera się w tej linii zwraca True, W przeciwnym przypadku False
     doLinesCross - przyjmuje obiekt klasy Line. Jeśli podana linia przcina linię na której zostałą wywołana metoda zwraca True, W przeciwnym przypadku False
@@ -39,6 +40,8 @@ Konstruktor przyjmuje dwa punkty i tworzy symetralną obiekty klasy Line
 Metody klasy
     -doBissectionsCross przyjmuje obiekt klasy Bisection zwraca True jeśeli którekolwiek z linii się przecina w przeciwnym przypadku zwraca False
     -crossingPoint przyjmuje obiekt klasy Bisection zwraca obiekt klasy Point który mówi o punkcie przecięcia linii. Jeśli linie się nie przecinają zwraca False
+     -restrictBisection - przyjmuje dwa obiekty klasy Point. Ogranicza on bisekcje przez te dwa punkty, tak że zaczyna się ona w jednym, a kończy w drugim
+
 Atrybuty klasy
     lines - tablica przechowująca linie w postaci instancji klasy Line
     firstPoint, oraz secondPoint - punkty (obiekty klasy Point) na podstawie których były wyznaczone linie
