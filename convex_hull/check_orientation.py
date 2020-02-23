@@ -19,7 +19,7 @@ def calc_det_sign1(a, b, c, error=10 ** (-8)):
                      [c[0], c[1], 1]])
 
     result = np.linalg.det(temp)
-    return get_sign(result, error)
+    return get_sign(result, 10 ** (-8))
 
 
 # the same as calc_det_sign1 just different method of computing

@@ -1,16 +1,15 @@
 Klasa Point: Klasa przechowująca punkty
 Konstruktor przyjmuje dwie współrzędne x i y w postaci liczb
 Metody w klasie:
-    distance - przyjmuje obiekty klasy Point zwraca dystans (w metryce taksówkowej) pomiędzy dwoma punktami 
-    findPointWithEqualDistance przyjmuje dwa obiekty klasy Point - Zwraca punkt znajdujący sie w równej odległości od 3 podanych punktów. Jeśli takowy nie istnieje zwraca False
+    distance                    - przyjmuje obiekty klasy Point zwraca dystans (w metryce taksówkowej) pomiędzy dwoma punktami
+    findPointWithEqualDistance  - przyjmuje dwa obiekty klasy Point zwraca punkt znajdujący sie w równej odległości od 3 podanych punktów. Jeśli takowy nie istnieje zwraca False
+    multiplyByScalar            - przyjmuje liczbę jako argument zwraca obiekt klasy Point, gdzie każda współrzędna została przemnożona przez podany skalar
+    divideByScalar              - przyjmuje liczbę jako argument zwraca obiekt klasy Point, gdzie każda współrzędna została podzielona przez podany skalar
+    to_tuple                    - zwraca tuple reprezentujacy punkt tzn. (self.x, self.y)
     klasa posiada przeładowanie operatorów dodawania i odejmowania
-    multiplyByScalar - przyjmuje liczbę jako argument zwraca obiekt klasy Point, gdzie każda współrzędna została przemnożona przez podany skalar
-    divideByScalar - przyjmuje liczbę jako argument zwraca obiekt klasy Point, gdzie każda współrzędna została podzielona przez podany skalar
-    to_tuple - zwraca tuple reprezentujacy punkt tzn. (self.x, self.y)
 Atrybuty klasy
     x - koordynat x-owy punktu
     y - koordynat y-owy punktu
-
 
 
 Klasa Line
@@ -20,45 +19,30 @@ Gdy typ lini nie został podany podana linia będzie odcinkiem
 Gdy linia jest półprostą self.start punkt startu, a self.end to wektor mówiący o kierunku półprostej
 Gdy linia jest odcinkiem self.start to punkt startu, a self.end to punkt końca odcinka
 Metody w klasie:
-    get_y_at - przyjmuje liczbe x i zwraca liczbę y = ax + b
-    lineCoinainsPoint - przyjmuje obiekt klasy Point. Jeśli podany punkt zawiera się w tej linii zwraca True, W przeciwnym przypadku False
-    doLinesCross - przyjmuje obiekt klasy Line. Jeśli podana linia przcina linię na której zostałą wywołana metoda zwraca True, W przeciwnym przypadku False
-    crossingPoint - przyjmuje obiekt klasy Line. Jeśli podana linia nie przcina linię na której zostałą wywołana metoda zwraca False. W przciwnym przypadku zwraca obiekt klasy Point którego koodynaty odpowiadają punktowi przecięcia podanych dwóch linii
+    makeOdcinekFromPolprosta    - przyjmuje obiekt klasy punkt. Jeśli linia jest typu Polprosta, oraz punkt leży na linii to zamienia Polsprostą na odcinek o końcach w przyjętym punkcie oraz punkcie startowym półprostej
+    get_y_at                    - przyjmuje liczbe x i zwraca liczbę y = ax + b
+    lineCoinainsPoint           - przyjmuje obiekt klasy Point. Jeśli podany punkt zawiera się w tej linii zwraca True, W przeciwnym przypadku False
+    doLinesCross                - przyjmuje obiekt klasy Line. Jeśli podana linia przcina linię na której zostałą wywołana metoda zwraca True, W przeciwnym przypadku False
+    crossingPoint               - przyjmuje obiekt klasy Line. Jeśli podana linia nie przcina linię na której zostałą wywołana metoda zwraca False. W przciwnym przypadku zwraca obiekt klasy Point którego koodynaty odpowiadają punktowi przecięcia podanych dwóch linii
 Atrybuty klasy
-    lineType - typ lini (LineType.ODCINEK lub LineType.POLPROSTA)
-    slope - współczynnik a równania lini y = ax + b
-    intercept - współczynnik b
-    v - wektor mówiący o kierunku lini
-    start - punkt początkowy odcinka
-    end - punkt końcowy odcinka lub wektor kierunku w przypadku półprostej
+    lineType    - typ lini (LineType.ODCINEK lub LineType.POLPROSTA)
+    slope       - współczynnik a równania lini y = ax + b
+    intercept   - współczynnik b
+    v           - wektor mówiący o kierunku lini
+    is_vertical - bool mowiacy o tym czy jest pionowa
+    start       - punkt początkowy odcinka
+    end         - punkt końcowy odcinka lub wektor kierunku w przypadku półprostej
 
 
 Klasa Bisection
 Klasa przechowująca linie leżące w takiej samej odległości od dwóch punktów podanych w konstruktorze
 Konstruktor przyjmuje dwa punkty i tworzy symetralną obiekty klasy Line
 Metody klasy
-    -doBissectionsCross przyjmuje obiekt klasy Bisection zwraca True jeśeli którekolwiek z linii się przecina w przeciwnym przypadku zwraca False
-    -crossingPoint przyjmuje obiekt klasy Bisection zwraca obiekt klasy Point który mówi o punkcie przecięcia linii. Jeśli linie się nie przecinają zwraca False
+    doBissectionsCross  - przyjmuje obiekt klasy Bisection zwraca True jeśeli którekolwiek z linii się przecina w przeciwnym przypadku zwraca False
+    crossingPoint       - przyjmuje obiekt klasy Bisection zwraca obiekt klasy Point który mówi o punkcie przecięcia linii. Jeśli linie się nie przecinają zwraca False
+    restrictBisection   - przyjmuje dwa obiekty klasy Point. Ogranicza on bisekcje przez te dwa punkty, tak że zaczyna się ona w jednym, a kończy w drugim
+
 Atrybuty klasy
-    lines - tablica przechowująca linie w postaci instancji klasy Line
+    lines                        - tablica przechowująca linie w postaci instancji klasy Line
     firstPoint, oraz secondPoint - punkty (obiekty klasy Point) na podstawie których były wyznaczone linie
 
-
-Klasa TaxiCabParabol
-Klasa przechowująca linie któe sa w takiej samej odległosci od punktu jak i od miotły (w metryce euklidesowej sa to parabole w taksówkowej odcinki i polproste)
-Konstruktor przyjmuje punkt oraz pozycje miotly oraz ustala wszystkie parametry paraboli
-Metody klasy
-    -crossing_points przyjmuje drugą parabole i zwraca zbiór wszystkich punktów przecięcia się parabol
-    -crossing_point przyjmuje drugą prabole ustala ktora jest "left_parabola" oraz "right_parabola" na podstawie x-owej współrzędnej
-        punktów na których podstawie tworzone były te parabole.
-        Zwraca jeden punkt przeciecia lini left_parabola.right_vertical_line z right_parabola.left_line lub
-        left_parabola.right_line z right_parabola.(left_line /left_vertical_line) jest to punkt który moze nas interesowac w trakcie tworzenia
-        struktury stanu przy wyliczaniu diagramu voronoi
-Atrybuty klasy
-    point - punkt wzgledem którego tworzona jest parabola
-    mid_point - punkt dokładnie pod punktem wzgledem ktorego tworzymu parabole oraz w polowie miedzy miotłą a tym punktem
-    sweepin_line_position - pozycja miotły (współrzędna y)
-    left(/right)_end_point - lewy (/prawy) punkt w którym parabola zmienia się z odcinka na pionową półprostą
-    left(/right)_vertical_line - lewa(/prawa) półprosta paraboli
-    left(/right)_line - lewy(/prawy) odcinek paraboli
-    lines - lista lini w porzadku: [left_vertical_line, left_line, right_line, right_vertical_line]

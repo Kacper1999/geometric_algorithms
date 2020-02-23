@@ -1,0 +1,7 @@
+Funkcje:
+voronoiDiagram          - przyjmuje tablice obiektów klasy point i opcjonalnie dwa punkty które zostaną odpowiednio: górnym prawym, oraz lewom dolnym brzegiem diagramu voronoi. Zwraca diagram voronoi w metryce miasta w postaci tablicy: [wiechołki voronoi, krawędzie voronoi, krawędzie obszaru]
+createVoronoiPoints     - przyjmuje tablice punktów, oraz tablice. Zwraca wierzchołki voronoi. Do tablicy dodaje sceny pomocne przy wizualizajci
+isVoronoiPoint          - przyjmuje tablice punktów, trzy indeksy odpowiadające trzem miejscom w tablicy punktów, oraz proponowany wierzchołek voronoi. Zwraca True jeśli wierzchołek należy do wykresu voronoi w przeciwnym przypadku zwraca False
+createVoronoiLines      - przyjmuje tablice punktów, tablicę wierzołków voronoi, oraz tablice. Do tablicy dodaje sceny pomocne przy wizualizajci. Zwraca tablice obiektów klasy Line, które odpowiadają krawęzdziom voronoi
+isVoronoiLine           - przyjmuje tablicę wierzołków voronoi, oraz dwa indeksy odpowiadające dwóm miejscom w tablicy punktów. Zwraca True jeśli w diagramie istnieje linia pomiędzy i i j, w przeciwnym przypadku False
+createVoronoiPolprosta  - przyjmuje tablice punktów, wierzołek voronoi, oraz trzy indeksy tablicy punktów które odpowiadają kolejno: dwóm punktom pomiędzy którymi ma zostać stworzona półprosta, oraz trzeciemu punktowi który leży w równej odległości od wierzchołka voronoi co dwa pozostałe (pomocny w orientowaniu półprostej) zwraca obiekt klasy Bisection pomiędzy wierzchołkiem voronoi a krawędzią obszaru.
