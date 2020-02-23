@@ -103,7 +103,7 @@ def main():
     line = Line(my_points[-1], my_points[0])
 
     tmp_node.flip(line)
-    point = Point(0.28, 0.76)  # ten punkt  nie dzial i chyba dlatego ze nie ma precyzji 
+    point = Point(0.28, 0.76)  # ten punkt  nie dzial i chyba dlatego ze nie ma precyzji
     print(tmp_node.in_which_triangle(point))
 
     # for point in my_points:
