@@ -1,0 +1,10 @@
+struktura stanu: SortedDict
+http://www.grantjenks.com/docs/sortedcontainers/sorteddict.html
+struktura zdarzeñ SortedSet
+http://www.grantjenks.com/docs/sortedcontainers/sortedset.html
+
+---
+
+moj program uwzglednia wykrycie ponowne przeciecia
+za pomoca struktury sorted set która nie pozwala na
+duplikaty
